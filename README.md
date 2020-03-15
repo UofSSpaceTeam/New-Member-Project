@@ -1,7 +1,5 @@
 # New-Member-Project
-
-[[_TOC_]]
-Repository encapsulating the New Member Project For USST
+_Repository encapsulating the New Member Project For USST_
 
 The New Member project involves contributing a specific desired feature to the Mini Rover.
 This feature changes every year.
