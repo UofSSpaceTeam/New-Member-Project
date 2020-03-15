@@ -12,5 +12,5 @@ This feature changes every year.
 
 
 ## Authors
-Bennett Lewis
-Nick Weisberg
+* Bennett Lewis
+* Nick Weisberg
