@@ -23,7 +23,7 @@ float concernDiff = 7.0;
 //Enable reading (Low is enabled);
 int enable = 5;
 
-const int valuesToRead = 3;
+const int valuesToRead = 8;
 float valuesToSend[valuesToRead];
 
 String outputString;
@@ -48,7 +48,7 @@ void setup() {
 void loop() {
   	//Enable the mux
     digitalWrite(enable,LOW);
-	int numSensors = 3;
+	int numSensors = 8;
 
 	// loop over 
     for (int count=0; count < numSensors ; count++) { //loop through each channel, checking for a signal
@@ -111,8 +111,12 @@ String formatString(float valuesToSend[]){
 	// Grab Values
 	intrOneSensor= valuesToSend[0];
 	intrTwoSensor= valuesToSend[1];
-	extOneSensor= valuesToSend[2];
-	extTwoSensor = 0.0;
+	intrThreeSensor= valuesToSend[2];
+	intrFourSensor= valuesToSend[3];
+	extOneSensor= valuesToSend[4];
+	extTwoSensor= valuesToSend[5];
+	extThreeSensor= valuesToSend[6];
+	extFourSensor= valuesToSend[7];
 
 	//Average and analyze
 	float innerAvg = GetAverage(intrOneSensor,intrTwoSensor,intrThreeSensor,intrFourSensor);
