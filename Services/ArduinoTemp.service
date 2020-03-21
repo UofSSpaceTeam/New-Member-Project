@@ -4,6 +4,10 @@ Description=Temperature Reading And Logging Script
 [Service]
 Type=simple
 Restart=always
+RestartSec=10
 User=pi
-ExecStart=/usr/bin/env python3 /home/pi/USST/New-Member-Project/TemperatureSensor/ArduinoTemp.py
+ExecStart=/home/pi/USST/New-Member-Project/TemperatureSensor/ArduinoTemp.py
+
+[Install]
+WantedBy=multi-user.target
 

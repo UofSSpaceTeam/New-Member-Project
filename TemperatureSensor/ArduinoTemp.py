@@ -1,6 +1,11 @@
 #!/usr/bin/env python3 
 import serial
+import os
 from datetime import datetime
+
+HOME = os.path.expanduser('~')
+LOGFILEPATH= HOME + "/Logs/tempLog.csv"
+
 
 def parse(line):
 	inside1 = float(line[0])
@@ -22,7 +27,7 @@ def parse(line):
 
 
 	log = str(timeStamp) + "," + str(inside1) + "," + str(inside2) + "," + str(inside3) + "," + str(inside4) + "," + str(outside1) + "," + str(outside2) + "," + str(outside3) + "," + str(outside4) + "," + str(insideAverage) + "," + str(outsideAverage) + "," + str(difference) + "," + str(concerning) + "\n"
-	file = open("logFile.csv", "a")
+	file = open(LOGFILEPATH, "a")
 	file.write(log)
 	file.close()
 
@@ -36,7 +41,7 @@ while True:
 	try:
 		decoded_serial = read_serial.decode('utf-8')
 	except Exception as e:
-		file = open("logFile.csv", "a")
+		file = open(LOGFILEPATH, "a")
 		print(e)
 		file.write(str(datetime.now()) + ", EXCEPTION OCCURRED: "+str(e) + "\n")
 		file.close()
