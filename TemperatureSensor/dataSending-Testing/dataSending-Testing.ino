@@ -1,11 +1,3 @@
-byte s0;    
-byte s1;   // the three digital pins for the bits     
-byte s2;         
- 
-int sel0  = 4; // Selecters 0,1,2 to pick channel
-int sel1 = 3;
-int sel2 = 2;
-int warnPin = 8;
 
 //Sensor Holders
 float intrOneSensor= 0.0;  // variable to store the value coming from the sensor
@@ -23,59 +15,50 @@ float concernDiff = 7.0;
 //Enable reading (Low is enabled);
 int enable = 5;
 
-const int valuesToRead = 8;
-float valuesToSend[valuesToRead];
+float valuesToSend[8];
 
 String outputString;
 
 void setup() {
   // put your setup code here, to run once:
-  s0 = 0;
-  s1 = 0;
-  s2 = 0;
-  
-  pinMode(sel2, OUTPUT);    // s0
-  pinMode(sel1, OUTPUT);    // s1
-  pinMode(sel0, OUTPUT);    // s2
-  pinMode(enable,OUTPUT);   //vE
-  pinMode(warnPin,OUTPUT);
 
-  
- 
   Serial.begin(9600); // fire up the serial 
 }
 
 void loop() {
-  	//Enable the mux
-    digitalWrite(enable,LOW);
-	int numSensors = 8;
+
+    float exReading = random(-50, 30);
+    float inReading = exReading + random(0,10);
 
 	// loop over 
-    for (int count=0; count < numSensors ; count++) { //loop through each channel, checking for a signal
+    for (int count=0; count < 4; count++) { //loop through each channel, checking for a signal
       
-      int row = count; //channel 5 = 5th element in the bin list -> 101 etc. 
-      //Read mux selector bits
-      s0 = bitRead(row,0); //bitRead() -> parameter 1 = binary sequence, parameter 2 = which bit to read, starting from the right most bit
-      s1 = bitRead(row,1); //channel 7 = 111, 1 = 2nd bit 
-      s2 = bitRead(row,2); // third bit
+        // generate a random value between -5 and 5
+        // to add to reading as random noise
+        float exNoise = random(-500,500);
+        exNoise = exNoise/100;
 
-	  //write selector bits gates
-      digitalWrite(sel2, s2); // send the bits to the digital pins 
-      digitalWrite(sel1, s1);
-      digitalWrite(sel0, s0);
+        exReading = exReading + exNoise;
 
-      delay(50);
+        //Assign to array
+        valuesToSend[count] = exReading;
 
-	  //Grab reading through gate
-      int reading = analogRead(A0);
+        delay (50); // time to read the values
+    }
 
-	  //Apply mod for correct temp
-      float value = modify(reading);
+        for (int count=4; count < 8; count++) { //loop through each channel, checking for a signal
+      
+        // generate a random value between -5 and 5
+        // to add to reading as random noise
+        float inNoise = random(-500,500);
+        inNoise = inNoise/100;
 
-      //Assign to array
-      valuesToSend[count] = value;
+        inReading = inReading + inNoise;
 
-      delay (50); // time to read the values
+        //Assign to array
+        valuesToSend[count] = inReading;
+
+        delay (50); // time to read the values
     }
 	//Get CSV string
     outputString = formatString(valuesToSend);
@@ -86,19 +69,12 @@ void loop() {
     
  }
 
-/**
-modify the float to a temperature reading
-*/ 
-float modify(int reading){
-  return reading * 0.48828;
-}
 
 /** 
 Check if the diff is concenrning
 */
 bool DiffCheck(float diff){
 	if (abs(diff) <= abs(concernDiff)){
-		digitalWrite(warnPin,HIGH);
 		return true;
 	}
 	return false;
@@ -111,11 +87,11 @@ String formatString(float valuesToSend[]){
 	// Grab Values
 	intrOneSensor= valuesToSend[0];
 	intrTwoSensor= valuesToSend[1];
-	intrThreeSensor= valuesToSend[2];
+    intrThreeSensor= valuesToSend[2];
 	intrFourSensor= valuesToSend[3];
 	extOneSensor= valuesToSend[4];
 	extTwoSensor= valuesToSend[5];
-	extThreeSensor= valuesToSend[6];
+    extThreeSensor= valuesToSend[6];
 	extFourSensor= valuesToSend[7];
 
 	//Average and analyze
