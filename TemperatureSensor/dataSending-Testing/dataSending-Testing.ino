@@ -41,7 +41,7 @@ void loop() {
         exReading = exReading + exNoise;
 
         //Assign to array
-        valuesToSend[count] = value;
+        valuesToSend[count] = exReading;
 
         delay (50); // time to read the values
     }
@@ -56,7 +56,7 @@ void loop() {
         inReading = inReading + inNoise;
 
         //Assign to array
-        valuesToSend[count] = value;
+        valuesToSend[count] = inReading;
 
         delay (50); // time to read the values
     }
@@ -75,7 +75,6 @@ Check if the diff is concenrning
 */
 bool DiffCheck(float diff){
 	if (abs(diff) <= abs(concernDiff)){
-		digitalWrite(warnPin,HIGH);
 		return true;
 	}
 	return false;
