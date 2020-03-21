@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#!/usr/bin/env python3
 from evdev import InputDevice, categorize, ecodes
 import RPi.GPIO as GPIO
 #setup of pins and config
