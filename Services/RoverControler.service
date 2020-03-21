@@ -1,0 +1,13 @@
+[Unit]
+Description=Rover Controlling script
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+User=pi
+ExecStart=/home/pi/USST/New-Member-Project/Controller/MiniRoverController.py
+
+[Install]
+WantedBy=multi-user.target
+
