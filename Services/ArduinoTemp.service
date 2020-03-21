@@ -1,4 +1,3 @@
-#The Temperature Service
 [Unit]
 Description=Temperature Reading And Logging Script
 
@@ -6,5 +5,5 @@ Description=Temperature Reading And Logging Script
 Type=simple
 Restart=always
 User=pi
-ExecStart=/home/pi/USST/New-Member-Project/TemperatureSensor/ArduinoTemp.py
+ExecStart=/usr/bin/env python3 /home/pi/USST/New-Member-Project/TemperatureSensor/ArduinoTemp.py
 
